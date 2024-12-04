@@ -6,12 +6,17 @@ import { generateImageUrl } from '../../fileStorage/attachmentUtils.mjs'
 export const handler = middy().use(httpErrorHandler())
                               .use(cors({ credentials: true }))
                               .handler(async (event) => {
-                                const userId = getUserId(event);
-                                const todoId = e.pathParameters.todoId;
+                                const todoId = event.pathParameters.todoId;
                                 const url = await generateImageUrl(todoId);
 
                                 return {
                                   statusCode: 201,
+                                  headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Access-Control-Allow-Credentials': true,
+                                    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                                    'Access-Control-Allow-Methods': 'POST,OPTIONS'
+                                  },
                                   body: JSON.stringify({
                                     uploadUrl: url
                                   })
