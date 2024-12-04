@@ -61,7 +61,7 @@ export function Todos() {
                   <Icon name="delete" />
                 </Button>
               </Grid.Column>
-              {todo.attachmentUrl && (
+              {todo.attachmentUrl &&(
                 <Image src={todo.attachmentUrl} size="small" wrapped />
               )}
               <Grid.Column width={16}>
@@ -99,6 +99,8 @@ export function Todos() {
         dueDate: todo.dueDate,
         done: !todo.done
       })
+      
+      console.log('patchTodo done')
       setTodos(
         update(todos, {
           [pos]: { done: { $set: !todo.done } }
@@ -106,7 +108,7 @@ export function Todos() {
       )
     } catch (e) {
       console.log('Failed to check a TODO', e)
-      alert('Todo deletion failed')
+      alert('Todo check failed')
     }
   }
 
@@ -161,4 +163,12 @@ function renderLoading() {
       </Loader>
     </Grid.Row>
   )
+}
+function isValidImageUrl(url) {
+  try {
+    const urlObj = new URL(url); // Validates URL format
+    return /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(urlObj.pathname); // Checks for valid image extensions
+  } catch (e) {
+    return false;
+  }
 }

@@ -20,7 +20,8 @@ export async function createTodo(todo, userId) {
         dueDate: todo.dueDate,
         createdAt: new Date().toISOString(),
         done: false,
-        attachmentUrl: `https://${process.env.ATTACHMENT_S3_BUCKET}.s3.amazonaws.com/${todoId}`
+        // attachmentUrl: `https://${process.env.ATTACHMENT_S3_BUCKET}.s3.amazonaws.com/${todoId}`,
+        attachmentUrl: ``
     }
     logger.info('Request create new TODO: ', todoItem);
 
@@ -32,7 +33,7 @@ export async function updateTodo(updateRequest, userId, todoId) {
         todoId,
         name: updateRequest.name,
         dueDate: updateRequest.dueDate,
-        done: false,
+        done: updateRequest.done,
         userId
     }
     logger.info('Request update TODO item: ', todoId);
