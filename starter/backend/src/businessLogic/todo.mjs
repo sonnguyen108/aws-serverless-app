@@ -1,6 +1,6 @@
 import { TodoAccess } from "../dataLayer/todoAccess.mjs";
 import { createLogger } from "../utils/logger.mjs";
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 const logger = createLogger("TODOS Business Logic");
 const todoAccess = new TodoAccess();

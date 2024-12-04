@@ -43,17 +43,17 @@ export function EditTodo() {
 
       setUploadState(UploadState.FetchingPresignedUrl)
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
-        scope: 'write:todos'
+        audience: `https://dev-yaei7z58wnqo730g.us.auth0.com/api/v2/`,
+        scope: 'write:todo'
       })
       const uploadUrl = await getUploadUrl(accessToken, todoId)
 
       setUploadState(UploadState.UploadingFile)
       await uploadFile(uploadUrl, file)
 
-      alert('File was uploaded!')
+      alert('Upload file successfully')
     } catch (e) {
-      alert('Could not upload a file: ' + e.message)
+      alert('Upload file failed: ' + e.message)
     } finally {
       setUploadState(UploadState.NoUpload)
     }
@@ -66,11 +66,11 @@ export function EditTodo() {
 
   return (
     <div>
-      <h1>Upload new image</h1>
+      <h1>upload Image</h1>
 
       <Form onSubmit={handleSubmit}>
         <Form.Field>
-          <label>File</label>
+          <label>Choose File</label>
           <input
             type="file"
             accept="image/*"
