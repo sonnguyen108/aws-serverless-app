@@ -1,4 +1,4 @@
-org: udagramanhnm
+org: udaproject
 app: todo-app
 service: serverless-todo-app
 
@@ -19,7 +19,7 @@ provider:
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-todo-images-${self:provider.stage}-anhnm50
+    ATTACHMENT_S3_BUCKET: serverless-todo-images-${self:provider.stage}-sonson
     SIGNED_URL_EXPIRATION: 300
     INDEX_NAME: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
 
@@ -30,6 +30,7 @@ functions:
 
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
+    name: Auth
 
   # Configure this function
   GetTodos:
@@ -54,7 +55,6 @@ functions:
           - xray:PutTraceSegments
         Resource: "*"
 
-
   # Configure this function
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
@@ -76,7 +76,6 @@ functions:
         Action:
           - xray:PutTraceSegments
         Resource: "*"
-
 
   # Configure this function
   UpdateTodo:
@@ -230,7 +229,3 @@ resources:
                 - s3:PutObject
               Resource: 'arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*'
         Bucket: !Ref AttachmentsBucket
-
-    
-
-    
