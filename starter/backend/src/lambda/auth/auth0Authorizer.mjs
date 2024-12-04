@@ -4,7 +4,7 @@ import { createLogger } from '../../utils/logger.mjs'
 
 const logger = createLogger('auth')
 
-const jwksUrl = 'https://test-endpoint.auth0.com/.well-known/jwks.json'
+const jwksUrl = 'https://anhnm50.us.auth0.com/.well-known/jwks.json'
 
 export async function handler(event) {
   try {
@@ -46,8 +46,18 @@ async function verifyToken(authHeader) {
   const token = getToken(authHeader)
   const jwt = jsonwebtoken.decode(token, { complete: true })
 
-  // TODO: Implement token verification
-  return undefined;
+  // Implement token verification
+  const response = await Axios.get(jwksUrl);
+  const signKey = response.data.keys.find(key => key.kid === jwt.header.kid);
+
+  if (!signKey) {
+    throw new Error('Key is Invalid');
+  }
+
+  const keyPem = signKey.x5c[0];
+  const secret = `-----BEGIN CERTIFICATE-----\n${keyPem}\n-----END CERTIFICATE-----\n`;
+  
+  return jsonwebtoken.verify(token, secret, { algorithms: ['RS256'] });
 }
 
 function getToken(authHeader) {
