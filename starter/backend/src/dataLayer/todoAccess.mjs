@@ -17,8 +17,7 @@ export class TodoAccess {
 
     async getTodos(userId) {
         logger.info('Query all TODOS by userId: ', userId);
-
-        return await this.database.query(
+        const items = await this.database.query(
             {
                 TableName: this.tableTodos,
                 IndexName: this.index,
@@ -27,7 +26,11 @@ export class TodoAccess {
                     ':userId': userId
                 }
             }
-        ).Items;
+        );
+        console.log(userId);
+        console.log(items);
+
+        return items.Items;
     }
 
     async createTodo(todo) {
